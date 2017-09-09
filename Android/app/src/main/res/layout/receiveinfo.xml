@@ -1,94 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:windowNoTitle="true"
-        android:background="#e5e5e5"
-        android:weightSum="1">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Name:"
-            android:textAlignment="textEnd"
-
-            android:width="170dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
-            android:id="@+id/receiveName"
-            android:layout_weight="0.50"
-            android:textAlignment="textStart"
-            android:paddingLeft="10dp" />
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:windowNoTitle="true"
-        android:background="#e5e5e5"
-        android:weightSum="1">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Address:"
-            android:textAlignment="textEnd"
-
-            android:width="170dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
-            android:id="@+id/receiveAddress"
-            android:layout_weight="0.50"
-            android:textAlignment="textStart"
-            android:paddingLeft="10dp" />
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:windowNoTitle="true"
-        android:background="#e5e5e5"
-        android:weightSum="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:width="170dp"
-            android:text="Phone number:"
-
-            android:textAlignment="textEnd"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/receivePhonenNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.50"
-            android:paddingLeft="10dp"
-            android:text="-"
-            android:textAlignment="textStart"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    </LinearLayout>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
 
+    <TextView
+        android:id="@+id/textView_receiveaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="147dp" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textView_receiveemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:text="-"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="290dp" />
+
+    <TextView
+        android:id="@+id/textView_receivephone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="218dp" />
+
+    <TextView
+        android:id="@+id/textView_receivename"
+        android:layout_width="45dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="68dp"
+        android:text="-"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <TextView
+        android:layout_width="45dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="68dp"
+        android:text="Name:"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address:"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="147dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone:"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="218dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:text="Email:"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="290dp" />
+</android.support.constraint.ConstraintLayout>
