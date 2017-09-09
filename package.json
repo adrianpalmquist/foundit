@@ -49,6 +49,7 @@
       "resolved": "https://registry.npmjs.org/blob/-/blob-0.0.4.tgz",
       "version": "0.0.4"
     },
+    "body-parser": "^1.18.0",
     "callsite": {
       "integrity": "sha1-KAOY5dZkvXQDi28JBRU+borxvCA=",
       "resolved": "https://registry.npmjs.org/callsite/-/callsite-1.0.0.tgz",

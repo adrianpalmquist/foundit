@@ -41,18 +41,69 @@ http.createServer((request, response) => {
 }).listen(8080);
 */
 
+//test json object (database)
+var database = {
+  
+    "id" : "id-001",
+    "name" : "david",
+    "location" : {
+      "lat" : "20304",
+      "lon" : "44569"
+    },
+    "mail" : "jsjsj@sksk.com",
+    "phone" : "0456797959",
+  
+    "id" : "id-002",
+    "name" : "jesper",
+    "location" : {
+      "lat" : "20804",
+      "lon" : "44539"
+    },
+    "mail" : "aaa@sksk.com",
+    "phone" : "0050797959" 
+  
+}
+
+
 var http = require('http');
-var counter = 0;
 
 function onRequest(req,res){
+    var data = "";
+    var parsedData;
     console.log('request received');
-    counter++;
+    
+    req.on('data', function (chunk) {
+        data += chunk;
+        parsedData = JSON.parse(data);
 
-    var returnObject = {"data" : counter};
-    var returnObjectString = JSON.stringify(returnObject);
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('_testcb(\'returnObjectString\')');
-    //'_testcb(\'{"message": "Hello world!"}\')'
+        console.log("requested id: " + parsedData.id);
+
+        /**
+         * Read NFC Tag (look up in db)
+         */
+        
+        if( parsedData.id == "1" ){
+          res.writeHead(200, {'Content-Type': 'application/json'});
+          console.log("user id match found");
+          res.end(JSON.stringify(parsedData));
+        } else {
+          res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.end("id not found");
+        }
+                  
+        /*  
+        if(database.hasOwnProperty(parsedData.id)){
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            console.log("user id match found");
+            res.end(parsedData);
+        } else {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end("id not found");
+        }*/
+        
+
+    });
+ 
 }
 
 var server = http.createServer(onRequest).listen(8000);
