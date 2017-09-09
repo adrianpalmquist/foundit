@@ -6,7 +6,6 @@ package com.esh.group7.foundit;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.net.sip.SipAudioCall;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;

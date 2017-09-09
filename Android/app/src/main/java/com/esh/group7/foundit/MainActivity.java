@@ -1,11 +1,18 @@
 package com.esh.group7.foundit;
 
+import android.Manifest;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements Listener{
+public class MainActivity extends AppCompatActivity implements Listener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
 
     NfcAdapter mNfcAdapter;
+    public static LocationManager locationManager;
+
     EditText mEtMessage;
     Button mBtWrite;
     Button mBtRead;
@@ -31,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements Listener{
     private boolean isWrite = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +48,14 @@ public class MainActivity extends AppCompatActivity implements Listener{
         initNFC();
         initViews();
 
+        getUserLocation();
+
+
+
     }
 
 
-    private void initNFC(){
+    private void initNFC() {
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
@@ -80,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements Listener{
 
             mNfcWriteFragment = NFCWriteFragment.newInstance();
         }
-        mNfcWriteFragment.show(getFragmentManager(),NFCWriteFragment.TAG);
+        mNfcWriteFragment.show(getFragmentManager(), NFCWriteFragment.TAG);
 
     }
 
@@ -92,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements Listener{
 
             mNfcReadFragment = NFCReadFragment.newInstance();
         }
-        mNfcReadFragment.show(getFragmentManager(),NFCReadFragment.TAG);
+        mNfcReadFragment.show(getFragmentManager(), NFCReadFragment.TAG);
 
     }
 
@@ -115,11 +127,11 @@ public class MainActivity extends AppCompatActivity implements Listener{
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         IntentFilter techDetected = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
-        IntentFilter[] nfcIntentFilter = new IntentFilter[]{techDetected,tagDetected,ndefDetected};
+        IntentFilter[] nfcIntentFilter = new IntentFilter[]{techDetected, tagDetected, ndefDetected};
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        if(mNfcAdapter!= null)
+        if (mNfcAdapter != null)
             mNfcAdapter.enableForegroundDispatch(this, pendingIntent, nfcIntentFilter, null);
 
     }
@@ -127,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements Listener{
     @Override
     protected void onPause() {
         super.onPause();
-        if(mNfcAdapter!= null)
+        if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
@@ -135,9 +147,9 @@ public class MainActivity extends AppCompatActivity implements Listener{
     protected void onNewIntent(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-        Log.d(TAG, "onNewIntent: "+intent.getAction());
+        Log.d(TAG, "onNewIntent: " + intent.getAction());
 
-        if(tag != null) {
+        if (tag != null) {
             Toast.makeText(this, getString(R.string.message_tag_detected), Toast.LENGTH_SHORT).show();
             Ndef ndef = Ndef.get(tag);
 
@@ -151,11 +163,11 @@ public class MainActivity extends AppCompatActivity implements Listener{
                         Log.e(TAG, "ndef is null when writing");
                         return;
                     }
-                    mNfcWriteFragment.onNfcDetected(ndef,messageToWrite);
+                    mNfcWriteFragment.onNfcDetected(ndef, messageToWrite);
 
                 } else {
 
-                    mNfcReadFragment = (NFCReadFragment)getFragmentManager().findFragmentByTag(NFCReadFragment.TAG);
+                    mNfcReadFragment = (NFCReadFragment) getFragmentManager().findFragmentByTag(NFCReadFragment.TAG);
                     if (ndef == null) {
                         Log.e(TAG, "ndef is null when reading");
                         return;
@@ -165,6 +177,51 @@ public class MainActivity extends AppCompatActivity implements Listener{
             }
         }
     }
+
+    private void getUserLocation() {
+        // Acquire a reference to the system Location Manager
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                makeUseOfNewLocation(location);
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+
+
+        };
+
+        // Register the listener with the Location Manager to receive location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.d("Location", "No permission to access location");
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
+
+    private void makeUseOfNewLocation(Location location) {
+        Log.d("Location", String.valueOf(location.getLatitude()) + ", " + String.valueOf(location.getLongitude()));
+    }
+
+
 
 
 }
