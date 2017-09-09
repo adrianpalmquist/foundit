@@ -36,31 +36,46 @@ function onRequest(req,res){
         data += chunk;
         parsedData = JSON.parse( data );
 
-        console.log("Request detected! Requested id: " + parsedData.id);
+        console.log("Request detected!");
 
-        //Read NFC Tag (look up in db) ---------------------------------------
- 
-        //Loop through database object
-        for( key in database ) {
-          for( field in database[key] ) {
-              //console.log(field + ": " + database[key][field])
-            
-              if( database[key][field] == parsedData.id ) {
-                //if id found, return object belonging to the id
-                res.writeHead( 200, {'Content-Type': 'application/json'} );
-                console.log( "user id match found" );
-                res.end( JSON.stringify( database[key] ) );
-              } else {
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end( "id not found" );
-              }
-          }
+        if( parsedData.name == undefined ) {
+          lookUpTag( parsedData, res );
+        } else {
+          addTag( parsedData, res );
         }
-
-        //--------------------------------------------------------------------
-                  
+                 
     });
  
+}
+
+//Read NFC Tag (look up in db) ---------------------------------------
+function lookUpTag( parsedData, res ) {
+  console.log("Look-up by id: " + parsedData.id);
+  //Loop through database object
+  for( key in database ) {
+    for( field in database[key] ) {
+        //console.log(field + ": " + database[key][field])
+      
+        if( database[key][field] == parsedData.id ) {
+          //if id found, return object belonging to the id
+          console.log( "user id match found" );
+          res.writeHead( 200, {'Content-Type': 'application/json'} );
+          res.end( JSON.stringify( database[key] ) );
+        } else {
+          res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.end( "id not found" );
+        }
+    }
+  }
+
+}
+
+//Add NFC Tag to database ------------------------------------------
+function addTag( parsedData, res ) {
+  database.push( parsedData );
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end("Tag added to database: " + JSON.stringify(parsedData));
+  console.log(database);
 }
 
 var server = http.createServer(onRequest).listen(8000);
