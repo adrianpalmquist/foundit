@@ -21,6 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.senion.stepinside.sdk.ApiKey;
+import com.senion.stepinside.sdk.MapKey;
+import com.senion.stepinside.sdk.StepInsideSdkManager;
+
+
+
+
 public class MainActivity extends AppCompatActivity implements Listener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -50,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements Listener {
 
         getUserLocation();
 
+        StepInsideSdkManager stepInsideSdkManager = new StepInsideSdkManager.Builder(getApplicationContext()).withApiKey(new ApiKey("CFZVVgYbGFFYFUwOD0hGSVsCAExMTxwAH0sYHU8bHhhOGUsU")).withMapKey(new MapKey("0cd2e127-3d43-426e-97c3-13b5eb8770a2")).build();
+
+        stepInsideSdkManager.initialize();
 
 
     }
@@ -220,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements Listener {
     private void makeUseOfNewLocation(Location location) {
         Log.d("Location", String.valueOf(location.getLatitude()) + ", " + String.valueOf(location.getLongitude()));
     }
+
+
 
 
 

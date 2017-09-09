@@ -83,7 +83,6 @@ public class NFCReadFragment extends DialogFragment {
 
         } catch (IOException | FormatException e) {
             e.printStackTrace();
-
         }
 
 
