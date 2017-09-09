@@ -127,7 +127,7 @@ public class NFCWriteFragment extends DialogFragment {
 
 
                 try {
-                    URL url = new URL(""); //TODO: Set url
+                    URL url = new URL("10.0.0.85:8000"); //TODO: Set url
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setDoInput(true);
