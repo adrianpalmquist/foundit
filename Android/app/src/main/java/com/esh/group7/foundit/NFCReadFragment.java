@@ -34,22 +34,21 @@ public class NFCReadFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //View view = inflater.inflate(R.layout.fragment_read,container,false);
-        //initViews(view);
-        //return view;
-        return null;
+        View view = inflater.inflate(R.layout.fragment_read,container,false);
+        initViews(view);
+        return view;
     }
 
     private void initViews(View view) {
 
-        //mTvMessage = (TextView) view.findViewById(R.id.tv_message);
+        mTvMessage = (TextView) view.findViewById(R.id.tv_message);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-       // mListener = (MainActivity)context;
-        //mListener.onDialogDisplayed();
+        mListener = (MainActivity)context;
+        mListener.onDialogDisplayed();
     }
 
     @Override

@@ -38,23 +38,21 @@ public class NFCWriteFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_write,container,false);
-        //initViews(view);
-        //return view;
-        return null;
+        View view = inflater.inflate(R.layout.fragment_write,container,false);
+        initViews(view);
+        return view;
     }
 
     private void initViews(View view) {
-
-        //mTvMessage = (TextView) view.findViewById(R.id.tv_message);
-       // mProgress = (ProgressBar) view.findViewById(R.id.progress);
+        mTvMessage = (TextView) view.findViewById(R.id.tv_message);
+        mProgress = (ProgressBar) view.findViewById(R.id.progress);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-       // mListener = (MainActivity) context;
-       // mListener.onDialogDisplayed();
+        mListener = (MainActivity) context;
+        mListener.onDialogDisplayed();
     }
 
     @Override
@@ -71,7 +69,7 @@ public class NFCWriteFragment extends DialogFragment {
 
     private void writeToNfc(Ndef ndef, String message){
 
-       // mTvMessage.setText(getString(R.string.message_write_progress));
+        mTvMessage.setText(getString(R.string.message_write_progress));
         if (ndef != null) {
 
             try {
@@ -80,11 +78,11 @@ public class NFCWriteFragment extends DialogFragment {
                 ndef.writeNdefMessage(new NdefMessage(mimeRecord));
                 ndef.close();
                 //Write Successful
-                //mTvMessage.setText(getString(R.string.message_write_success));
+                mTvMessage.setText(getString(R.string.message_write_success));
 
             } catch (IOException | FormatException e) {
                 e.printStackTrace();
-               // mTvMessage.setText(getString(R.string.message_write_error));
+                mTvMessage.setText(getString(R.string.message_write_error));
 
             } finally {
                 mProgress.setVisibility(View.GONE);
