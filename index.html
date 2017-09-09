@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+      <style>
 
-    <script src="db_connection.js"></script>
+      </style>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost:8000',
+                dataType: "jsonp",
+                jsonpCallback: "_testcb",
+                cache: false,
+                timeout: 5000,
+                success: function(data) {
+                    $("#test").append(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('error ' + textStatus + " " + errorThrown);
+                }
+            });
+        });
+    </script>
     <title>title</title>
   </head>
   <body>
+
+    <h2 id ="test"></h2>
   
   </body>
 </html>
