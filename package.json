@@ -141,6 +141,7 @@
       "resolved": "https://registry.npmjs.org/has-cors/-/has-cors-1.1.0.tgz",
       "version": "1.1.0"
     },
+    "https": "^1.0.0",
     "indexof": {
       "integrity": "sha1-gtwzbSMrkGIXnQWrMpOmYFn9Q10=",
       "resolved": "https://registry.npmjs.org/indexof/-/indexof-0.0.1.tgz",
@@ -209,6 +210,7 @@
       "resolved": "https://registry.npmjs.org/parseuri/-/parseuri-0.0.5.tgz",
       "version": "0.0.5"
     },
+    "querystring": "^0.2.0",
     "safe-buffer": {
       "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c=",
       "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.0.1.tgz",
