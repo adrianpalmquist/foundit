@@ -8,14 +8,8 @@ var querystring = require('querystring');
 // Authentication to 46elks -----------------------------------------------
 var username = 'uce2edbc8eb5345786bfbbc50d6677417';
 var password = 'EEFAD56AB0A6EC5508CC27296AC9B9B9';
-var postFields = {
-  from:    "Foundit", 
-  to:      "+46768970887", 
-  message: "ID search detected"
-  }
 
 var key = new Buffer(username + ':' + password).toString('base64');
-var postData = querystring.stringify(postFields);
 
 var options = {
   hostname: 'api.46elks.com',
@@ -42,25 +36,21 @@ var myClient
 //Test json object (database) ---------------------------------------------
 var database = [
   {
-    "id" : "id-001",
-    "name" : "david",
-    "location" : {
-      "lat" : "20304",
-      "lon" : "44569"
-    },
-    "mail" : "jsjsj@sksk.com",
-    "phone" : "0456797959",
+    "id" : "1",
+    "name" : "David Oskarsson",
+      "lat" : "58.407",
+      "lon" : "15.6277",
+    "mail" : "david@gmail.com",
+    "phone" : "+46700000000",
   },
 
   {
-    "id" : "id-002",
-    "name" : "jesper",
-    "location" : {
-      "lat" : "20804",
-      "lon" : "44539"
-    },
-    "mail" : "aaa@sksk.com",
-    "phone" : "0050797959" 
+    "id" : "2",
+    "name" : "Jesper Adriansson",
+      "lat" : "55.432",
+      "lon" : "15.457",
+    "mail" : "aaa@outlook.com",
+    "phone" : "+4600507979" 
   }
 
 ]
@@ -75,45 +65,72 @@ function onRequest(req,res){
     
     req.on('data', function ( chunk ) {
         data += chunk;
-        parsedData = JSON.parse( data );
+        parsedData = JSON.parse(data);
 	var id = parsedData.id
-	
+
+	/*
 	pool.connect(function (err, client, done) {
 	if (err) console.log(err)
 	app.listen(3000, function () {
 	    console.log('listening on 3000')
 	})
-	    myClient = client
-	    if(parsedData.name == undefined)
+	    myClient = client;
+
+	    //Look up id in database
+	    if(parsedData.name == undefined) {
+
+		/*
 		var idQuery = format('SELECT * from foundit WHERE id = %L', id)
-	    else{
-		var values = [
-		      parsedData.id,
-                    parsedData.name,
-                    parsedData.lat,
-                    parsedData.long,
-                    parsedData.mail,
-                    parsedData.phone
-		];
-		var idQuery = format('INSERT INTO foundit (id, name, lat, long, mail, phone) VALUES(%L',values);
+
+	        myClient.query(idQuery, function (err, result) {
+		    if (err) {
+			console.log(err)
+		    }
+		
+	            console.log("ID found!");
+		    console.log(JSON.stringify(result.rows[0]));
+	        })
+		
+	    } else {
+
+		
+		
+		//Insert new tag into database
+		var values = [parsedData.id, parsedData.name,parsedData.lat, parsedData.lon,
+                    parsedData.mail, parsedData.phone
+			     ];
+		console.log(values);
+		var idQuery = format('INSERT INTO foundit (id, name, lat, long, mail, phone) VALUES (%s,%s,%s,%s,%s,%s)',values);
+		
+	            myClient.query(idQuery, function (err, result) {
+		    if (err) {
+			console.log(err)
+		    }
+		
+			console.log("Inserted tag in database");
+			console.log( JSON.stringify(parsedData) );
+		   
+	        })
+	
 	    }
-	    myClient.query(idQuery, function (err, result) {
+	   */
+	    
+	    /*myClient.query(idQuery, function (err, result) {
 		if (err) {
 		    console.log(err)
 		}
-		console.log("Result: " + JSON.stringify(result.rows[0]))
+		
+	        console.log("Result: " + JSON.stringify(result.rows[0]))
 	    })
-	})
+	})*/
 
-	
-	//if( parsedData.name == undefined ) {
-	
-	   // res.writeHead( 200, {'Content-Type': 'text/plain'} );
-            //res.end(  db.result );
-          //lookUpTag( parsedData, res );
-       // } else {
-       //   addTag( parsedData, res );
-       // }
+	var p = parsedData;
+	if( parsedData.id != undefined && parsedData.id != "" && (parsedData.name == undefined && parsedData.lat == undefined && parsedData.lon == undefined
+								  && parsedData.mail == undefined && parsedData.phone == undefined) ) {
+            lookUpTag( parsedData, res );
+        } else if(p.id != undefined && p.name != undefined && p.lat != undefined && p.lon != undefined && p.mail != undefined && p.phone != undefined) {
+            addTag( parsedData, res );
+        }
                  
     });
  
@@ -135,10 +152,10 @@ function lookUpTag( parsedData, res ) {
           if( database[key][field] == parsedData.id ) {
               //if id found, return object belonging to the id
               res.writeHead( 200, {'Content-Type': 'application/json'} );
-              res.end( JSON.stringify( database[key] ) );
+              res.end("User ID found! " + JSON.stringify( database[key] ) );
 
               console.log( "user id match found, responded with user tag" );
-              sendSMS();
+              sendSMS( database[key].phone, database[key].name, database[key].lat, database[key].lon );
               return;
           }
       }
@@ -157,11 +174,20 @@ function addTag( parsedData, res ) {
   database.push( parsedData );
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end("Tag added to database: " + JSON.stringify(parsedData));
-  console.log(database);
+  console.log("New tag added to database. New database is now: " + database);
 }
 
 
-function sendSMS() {
+function sendSMS( phone, name, latitude, longitude ) {
+
+    var postFields = {
+	from:    "Foundit", 
+	to:      "+46768970887",
+	message: "Hello " + name + "! Your NFC tag was recently scanned at this location: https://www.openstreetmap.org/?mlat="+latitude+"&mlon="+longitude+"#map=12/"+latitude+"/"+longitude	
+    }
+
+    var postData = querystring.stringify(postFields);
+    
   var callback = function(response) {
     var str = ''
     response.on('data', function (chunk) {
