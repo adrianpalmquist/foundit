@@ -1,8 +1,10 @@
 //Load dependencies
+const express = require('express')
+const app = express()
+var pg = require('pg')
 var http = require('http');
 var https = require('https');
 var querystring = require('querystring');
-
 // Authentication to 46elks -----------------------------------------------
 var username = 'uce2edbc8eb5345786bfbbc50d6677417';
 var password = 'EEFAD56AB0A6EC5508CC27296AC9B9B9';
@@ -23,6 +25,19 @@ var options = {
     'Authorization': 'Basic ' + key
     }
   };
+
+var format = require('pg-format')
+var PGUSER = 'postgres'
+var PGDATABASE = 'foundit'
+var config = {
+    user: 'postgres',
+    password: 'foundit',
+    database: 'foundit',
+    max: 10,
+    idleTimeoutMillis: 30000
+}
+var pool = new pg.Pool(config);
+var myClient
 
 //Test json object (database) ---------------------------------------------
 var database = [
@@ -54,21 +69,60 @@ function onRequest(req,res){
     var data = "";
     var parsedData;
 
+    
+
     console.log("Request detected!");
     
     req.on('data', function ( chunk ) {
         data += chunk;
         parsedData = JSON.parse( data );
+	var id = parsedData.id
+	
+	pool.connect(function (err, client, done) {
+	if (err) console.log(err)
+	app.listen(3000, function () {
+	    console.log('listening on 3000')
+	})
+	    myClient = client
+	    if(parsedData.name == undefined)
+		var idQuery = format('SELECT * from foundit WHERE id = %L', id)
+	    else{
+		var values = [
+		      parsedData.id,
+                    parsedData.name,
+                    parsedData.lat,
+                    parsedData.long,
+                    parsedData.mail,
+                    parsedData.phone
+		];
+		var idQuery = format('INSERT INTO foundit (id, name, lat, long, mail, phone) VALUES(%L',values);
+	    }
+	    myClient.query(idQuery, function (err, result) {
+		if (err) {
+		    console.log(err)
+		}
+		console.log("Result: " + JSON.stringify(result.rows[0]))
+	    })
+	})
 
-        if( parsedData.name == undefined ) {
-          lookUpTag( parsedData, res );
-        } else {
-          addTag( parsedData, res );
-        }
+	
+	//if( parsedData.name == undefined ) {
+	
+	   // res.writeHead( 200, {'Content-Type': 'text/plain'} );
+            //res.end(  db.result );
+          //lookUpTag( parsedData, res );
+       // } else {
+       //   addTag( parsedData, res );
+       // }
                  
     });
  
 }
+
+
+
+
+
 
 //Read NFC Tag (look up in db) ---------------------------------------
 function lookUpTag( parsedData, res ) {
@@ -94,6 +148,9 @@ function lookUpTag( parsedData, res ) {
   res.end( "id not found" );
 
 }
+//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+
+//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 //Add NFC Tag to database ------------------------------------------
 function addTag( parsedData, res ) {
