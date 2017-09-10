@@ -11,17 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/message_write_tag"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:text="Prepare your item"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="259dp"
+        android:layout_height="194dp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_nfc"
-        android:tint="@color/colorAccent"/>
+        android:src="@drawable/foundit_logo" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -37,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:text="@string/message_tap_tag"/>
+        android:text="Tap the NFC tag on your item to your device"
+        android:textSize="12sp" />
 
 </LinearLayout>

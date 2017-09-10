@@ -13,6 +13,8 @@ import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.transition.Transition;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,18 +51,12 @@ public class NFCWriteFragment extends DialogFragment {
     private ProgressBar mProgress;
     private Listener mListener;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_write,container,false);
         initViews(view);
-
-        try {
-            jsonForPost.put("name", "Test Testsson");
-            jsonForPost.put("phonenumber", "070123456");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         new postRequest().execute(jsonForPost);
 
@@ -75,7 +71,7 @@ public class NFCWriteFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListener = (MainActivity) context;
+        mListener = (Register) context;
         mListener.onDialogDisplayed();
     }
 
@@ -102,7 +98,7 @@ public class NFCWriteFragment extends DialogFragment {
                 ndef.writeNdefMessage(new NdefMessage(mimeRecord));
                 ndef.close();
                 //Write Successful
-                mTvMessage.setText(getString(R.string.message_write_success));
+                mTvMessage.setText("Successfully saved your information to the item!");
 
             } catch (IOException | FormatException e) {
                 e.printStackTrace();
@@ -127,7 +123,7 @@ public class NFCWriteFragment extends DialogFragment {
 
 
                 try {
-                    URL url = new URL("10.0.0.85:8000"); //TODO: Set url
+                    URL url = new URL("http://10.0.0.43:8000");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setDoInput(true);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/welcome">
+
+    <Button
+        android:id="@+id/buttonRegisterPerson"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="230dp"
+        android:text="Add item"
+        android:textSize="14sp"
+        android:layout_alignEnd="@+id/button3Read"
+        android:layout_alignStart="@+id/button3Read" />
+
+    <Button
+        android:id="@+id/button3Read"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:text="Scan item"
+        android:width="130dp"
+        android:textSize="14sp"
+        android:layout_below="@+id/buttonRegisterPerson"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/foundit_logo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/buttonRegisterPerson"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/button3Read"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="109dp"
+        android:text="- Finding lost items has never been easier."
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp" />
+</RelativeLayout>

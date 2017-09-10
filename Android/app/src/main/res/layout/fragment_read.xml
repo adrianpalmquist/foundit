@@ -10,17 +10,16 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/message_read_tag"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="Scan the item"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="274dp"
+        android:layout_height="172dp"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_nfc"
-        android:tint="@color/colorAccent"
+        android:src="@drawable/ic_foundit"
         android:layout_gravity="center"/>
 
     <TextView
