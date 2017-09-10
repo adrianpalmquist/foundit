@@ -128,6 +128,7 @@
       "resolved": "https://registry.npmjs.org/engine.io-parser/-/engine.io-parser-2.1.1.tgz",
       "version": "2.1.1"
     },
+    "express": "^4.15.4",
     "has-binary2": {
       "integrity": "sha1-6D26SfC5vk0CbSc2U1DZ8D9Uvpg=",
       "requires": {
@@ -210,6 +211,8 @@
       "resolved": "https://registry.npmjs.org/parseuri/-/parseuri-0.0.5.tgz",
       "version": "0.0.5"
     },
+    "pg": "^7.3.0",
+    "pg-format": "^1.0.4",
     "querystring": "^0.2.0",
     "safe-buffer": {
       "integrity": "sha1-0mPKVGls2KMGtcplUekt5XkY++c=",

@@ -1,0 +1,15 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "Database for FoundIt",
+  "main": "database.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesper Lund, David Tran",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "pg-format": "^1.0.4"
+  }
+}
