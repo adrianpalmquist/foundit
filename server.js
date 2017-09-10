@@ -59,8 +59,6 @@ function onRequest(req,res){
     var data = "";
     var parsedData;
 
-    
-
     console.log("Request detected!");
     
     req.on('data', function ( chunk ) {
@@ -136,11 +134,6 @@ function onRequest(req,res){
  
 }
 
-
-
-
-
-
 //Read NFC Tag (look up in db) ---------------------------------------
 function lookUpTag( parsedData, res ) {
   console.log("Look-up by id: " + parsedData.id);
@@ -165,9 +158,7 @@ function lookUpTag( parsedData, res ) {
   res.end( "id not found" );
 
 }
-//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
-//¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 //Add NFC Tag to database ------------------------------------------
 function addTag( parsedData, res ) {
@@ -177,7 +168,7 @@ function addTag( parsedData, res ) {
   console.log("New tag added to database. New database is now: " + database);
 }
 
-
+//Set message and send SMS to user
 function sendSMS( phone, name, latitude, longitude ) {
 
     var postFields = {
